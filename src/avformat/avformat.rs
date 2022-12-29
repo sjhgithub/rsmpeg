@@ -151,6 +151,31 @@ impl AVFormatContextInput {
         }
     }
 
+    /// Skip some packet of a stream identified by stream_index from current packet.
+    /// If stream_index is -1, will skip all packet'stream_index type
+    /// Return the number of packet has been skipped.
+    pub fn seek_packet(&mut self, pos: usize, stream_index: i32) -> (usize, usize) {
+        let mut packet = AVPacket::new();
+        let mut skipped = 0usize;
+        let mut skipped_all = 0usize;
+        unsafe {
+            loop {
+                let err = ffi::av_read_frame(self.as_mut_ptr(), packet.as_mut_ptr());
+                if err < 0 {
+                    break;
+                }
+                skipped_all += 1;
+                if stream_index == -1 || packet.stream_index == stream_index {
+                    skipped += 1;
+                    if skipped >= pos {
+                        break;
+                    }
+                }
+            }
+        };
+        (skipped, skipped_all)
+    }
+
     /// Return the stream index and stream decoder if there is any "best" stream.
     /// "best" means the most likely what the user wants.
     pub fn find_best_stream(
