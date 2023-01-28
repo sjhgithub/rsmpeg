@@ -15,7 +15,7 @@ rust-version = "1.62.0"
 
 [dependencies]
 #rusty_ffmpeg = "0.10"
-rusty_ffmpeg = { git = "https://github.com/sjhgithub/rusty_ffmpeg.git", rev = "bed4d4c9050b6c3f7e3e2d70054f579c3230ee3d" }
+rusty_ffmpeg = { git = "https://github.com/sjhgithub/rusty_ffmpeg.git", rev = "93fe94ea0fdc3dbce8e42a8a8134a5b0196575be" }
 libc = "0.2"
 paste = "1.0"
 thiserror = "1.0"
